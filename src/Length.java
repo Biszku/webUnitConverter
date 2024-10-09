@@ -2,7 +2,7 @@ public enum Length {
     MILLIMETER(0.001),
     CENTIMETER(0.01),
     INCH(0.0254),
-    FEET(0.3048),
+    FOOT(0.3048),
     YARD(0.9144),
     METER(1),
     KILOMETER(1000),
@@ -22,7 +22,7 @@ public enum Length {
             case "mm" -> MILLIMETER.value;
             case "cm" -> CENTIMETER.value;
             case "in" -> INCH.value;
-            case "ft" -> FEET.value;
+            case "ft" -> FOOT.value;
             case "yd" -> YARD.value;
             case "m" -> METER.value;
             case "km" -> KILOMETER.value;
