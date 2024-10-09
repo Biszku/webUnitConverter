@@ -40,9 +40,9 @@ public class temperaturePage extends pageCreator{
     }
 
     String createSelectionContent() {
-        return "<option value=\"c\">Celsius</option>" +
-                "<option value=\"f\">Fahrenheit</option>" +
-                "<option value=\"k\">Kelvin</option>";
+        return "<option value=\"C\">Celsius</option>" +
+                "<option value=\"F\">Fahrenheit</option>" +
+                "<option value=\"K\">Kelvin</option>";
     }
 
     String createUnitLabelContent() {

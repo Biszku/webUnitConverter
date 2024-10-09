@@ -42,9 +42,9 @@ public class weightPage extends pageCreator {
     String createSelectionContent() {
         return "<option value=\"mg\">milligram</option>" +
                 "<option value=\"g\">gram</option>" +
-                "<option value=\"kg\">kilogram</option>" +
                 "<option value=\"oz\">Ounce</option>"+
-                "<option value=\"lb\">Pound</option>";
+                "<option value=\"lb\">Pound</option>" +
+                "<option value=\"kg\">kilogram</option>";
     }
 
     String createUnitLabelContent() {

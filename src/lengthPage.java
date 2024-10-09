@@ -48,11 +48,11 @@ public class lengthPage extends pageCreator {
                 "<div class=\"form_group\">" +
                 "<option value=\"mm\">millimeter</option>" +
                 "<option value=\"cm\">centimeter</option>" +
-                "<option value=\"m\">meter</option>" +
-                "<option value=\"km\">kilometer</option>" +
                 "<option value=\"in\">inch</option>"+
                 "<option value=\"ft\">foot</option>"+
                 "<option value=\"yd\">yard</option>"+
+                "<option value=\"m\">meter</option>" +
+                "<option value=\"km\">kilometer</option>" +
                 "<option value=\"mi\">mile</option>";
     }
 }
