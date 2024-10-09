@@ -1,4 +1,4 @@
-public class pageStyles {
+public class PageStyles {
 
     public static String createStyles() {
         return "<style>" + createDefaultStyles() + createRestStyle() + "</style>";

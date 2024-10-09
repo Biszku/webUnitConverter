@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Map;
 
 public class Server {
     private static final int PORT = 8080;
@@ -28,121 +27,26 @@ public class Server {
     }
 }
 
-class lengthConversionHandler extends conversionHandler implements HttpHandler {
-    private String response = "";
+class lengthConversionHandler extends LengthConHan implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-
-            String formData = new String(exchange.getRequestBody().readAllBytes());
-            Map<String, String> params = getValuesFromForm(formData);
-
-            if(params == null) {
-                response = new lengthPage().createPage();
-                exchange.sendResponseHeaders(200, response.length());
-                exchange.getResponseBody().write(response.getBytes());
-                exchange.close();
-                return;
-            }
-
-            double value = Double.parseDouble(params.get("value"));
-            String from = params.get("from");
-            String to = params.get("to");
-
-            double convertedValue = Length.convertUnit(from, to);
-            double result = value * convertedValue;
-
-            response = new lengthPage().createResultPage("%.2f %s".formatted(value, from),
-                    "%.2f %s".formatted(result,to));
-        } else if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-            response = new lengthPage().createPage();
-        }
-
-        exchange.sendResponseHeaders(200, response.length());
-        exchange.getResponseBody().write(response.getBytes());
-        exchange.close();
+        handleAbstraction(exchange);
     }
-
 }
 
-class weightConversionHandler extends conversionHandler implements HttpHandler {
-
-    private String response = "";
+class weightConversionHandler extends WeightConHan implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-
-            String formData = new String(exchange.getRequestBody().readAllBytes());
-            Map<String, String> params = getValuesFromForm(formData);
-
-            if(params == null) {
-                response = new weightPage().createPage();
-                exchange.sendResponseHeaders(200, response.length());
-                exchange.getResponseBody().write(response.getBytes());
-                exchange.close();
-                return;
-            }
-
-            double value = Double.parseDouble(params.get("value"));
-            String from = params.get("from");
-            String to = params.get("to");
-
-            double convertedValue = Weight.convertUnit(from, to);
-            double result = value * convertedValue;
-
-            response = new weightPage().createResultPage("%.2f %s".formatted(value, from),
-                    "%.2f %s".formatted(result,to));
-        } else if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-            response = new weightPage().createPage();
-        }
-
-        exchange.sendResponseHeaders(200, response.length());
-        exchange.getResponseBody().write(response.getBytes());
-        exchange.close();
+        handleAbstraction(exchange);
     }
 }
 
-class temperatureConversionHandler extends conversionHandler implements HttpHandler {
-    private String response = "";
+class temperatureConversionHandler extends TemperatureConHan implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-
-            String formData = new String(exchange.getRequestBody().readAllBytes());
-            Map<String, String> params = getValuesFromForm(formData);
-
-
-            if(params == null) {
-                response = new temperaturePage().createPage();
-                exchange.sendResponseHeaders(200, response.length());
-                exchange.getResponseBody().write(response.getBytes());
-                exchange.close();
-                return;
-            }
-
-            double value = Double.parseDouble(params.get("value"));
-
-            String from = params.get("from");
-            String to = params.get("to");
-
-            String fromPrefix = !from.equals("K") ? "&#176" : "";
-            String toPrefix = !to.equals("K") ? "&#176" : "";
-
-            double result = Temperature.convert(value, from, to);
-
-            response = new temperaturePage().createResultPage("%.2f %s".formatted(value, fromPrefix+from),
-                    "%.2f %s".formatted(result, toPrefix+to));
-        } else if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-            response = new temperaturePage().createPage();
-        }
-
-        exchange.sendResponseHeaders(200, response.length());
-        exchange.getResponseBody().write(response.getBytes());
-        exchange.close();
+        handleAbstraction(exchange);
     }
 }
-
-

@@ -1,10 +1,10 @@
-public class lengthPage extends pageCreator {
+public class WeightPage extends PageCreator {
 
     @Override
     String createMenu() {
         return "<nav>" +
-                "<a href=\"/length\" class=\"active\">Length</a>" +
-                "<a href=\"/weight\">Weight</a>" +
+                "<a href=\"/length\">Length</a>" +
+                "<a href=\"/weight\" class=\"active\">Weight</a>" +
                 "<a href=\"/temperature\">Temperature</a>" +
                 "</nav>";
     }
@@ -13,7 +13,7 @@ public class lengthPage extends pageCreator {
     String createForm() {
         return "<form method=\"POST\" action=\"\" target=\"_self\">" +
                 "<div class=\"form_group\">" +
-                "<label for=\"value\">Enter the length to convert</label>" +
+                "<label for=\"value\">Enter the weight to convert</label>" +
                 "<input type=\"number\" id=\"value\" name=\"value\">" +
                 "</div>" +
                 "<div class=\"form_group\">" +
@@ -36,19 +36,14 @@ public class lengthPage extends pageCreator {
 
     @Override
     String createResetButton() {
-        return "<a href=\"/length\" class=\"reset-btn\">Reset</a>";
+        return "<a href=\"/weight\" class=\"reset-btn\">Reset</a>";
     }
 
     String createSelectionContent() {
-        return "<form method=\"POST\" action=\"\" target=\"_self\">" +
-                "<div class=\"form_group\">" +
-                "<option value=\"mm\">millimeter</option>" +
-                "<option value=\"cm\">centimeter</option>" +
-                "<option value=\"in\">inch</option>"+
-                "<option value=\"ft\">foot</option>"+
-                "<option value=\"yd\">yard</option>"+
-                "<option value=\"m\">meter</option>" +
-                "<option value=\"km\">kilometer</option>" +
-                "<option value=\"mi\">mile</option>";
+        return "<option value=\"mg\">milligram</option>" +
+                "<option value=\"g\">gram</option>" +
+                "<option value=\"oz\">Ounce</option>"+
+                "<option value=\"lb\">Pound</option>" +
+                "<option value=\"kg\">kilogram</option>";
     }
 }

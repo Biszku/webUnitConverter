@@ -1,4 +1,4 @@
-public abstract class pageCreator {
+public abstract class PageCreator {
 
     public String createPage() {
         return createHead() + createBody(createForm());
@@ -17,7 +17,7 @@ public abstract class pageCreator {
                 "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
                 "<meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">" +
                 "<title>Unit converter</title>" +
-                pageStyles.createStyles() +
+                PageStyles.createStyles() +
                 "</head>";
     }
 

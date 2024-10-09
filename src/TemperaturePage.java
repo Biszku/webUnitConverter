@@ -1,4 +1,4 @@
-public class temperaturePage extends pageCreator{
+public class TemperaturePage extends PageCreator {
 
     @Override
     String createMenu() {
