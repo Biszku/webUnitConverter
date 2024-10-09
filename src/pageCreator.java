@@ -1,15 +1,15 @@
 public abstract class pageCreator {
 
     public String createPage() {
-        return createHeadOfPage() + createBodyOfPage(createContent());
+        return createHead() + createBody(createForm());
     }
 
     public String createResultPage(String from, String to) {
-        return createHeadOfPage() + createBodyOfPage(createResultContent(from, to));
+        return createHead() + createBody(createResultView(from, to));
     }
 
 
-    private String createHeadOfPage() {
+    private String createHead() {
         return "<!DOCTYPE html>" +
                 "<html lang=\"en\">" +
                 "<head>" +
@@ -21,12 +21,12 @@ public abstract class pageCreator {
                 "</head>";
     }
 
-    private String createBodyOfPage(String contentOfPage) {
+    private String createBody(String contentOfPage) {
         return "<body>" +
                 "<main>" +
                 "<section>" +
                 "<h1>Unit converter</h1>" +
-                createMenuContent() +
+                createMenu() +
                 contentOfPage +
                 "</section>" +
                 "</main>" +
@@ -34,7 +34,7 @@ public abstract class pageCreator {
                 "</html>";
     }
 
-    private String createResultContent(String from, String to) {
+    private String createResultView(String from, String to) {
         return "<h2>Result of your calculation</h2>" +
                 "<span>" +
                 from +
@@ -45,7 +45,7 @@ public abstract class pageCreator {
                 createResetButton();
     }
 
-    abstract String createContent();
-    abstract String createMenuContent();
+    abstract String createForm();
+    abstract String createMenu();
     abstract String createResetButton();
 }

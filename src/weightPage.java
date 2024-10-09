@@ -1,7 +1,7 @@
 public class weightPage extends pageCreator {
 
     @Override
-    String createMenuContent() {
+    String createMenu() {
         return "<nav>" +
                 "<a href=\"/length\">Length</a>" +
                 "<a href=\"/weight\" class=\"active\">Weight</a>" +
@@ -10,7 +10,7 @@ public class weightPage extends pageCreator {
     }
 
     @Override
-    String createContent() {
+    String createForm() {
         return "<form method=\"POST\" action=\"\" target=\"_self\">" +
                 "<div class=\"form_group\">" +
                 createUnitLabelContent() +
