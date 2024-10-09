@@ -13,7 +13,7 @@ public class lengthPage extends pageCreator {
     String createForm() {
         return "<form method=\"POST\" action=\"\" target=\"_self\">" +
                 "<div class=\"form_group\">" +
-                createUnitLabelContent() +
+                "<label for=\"value\">Enter the length to convert</label>" +
                 "<input type=\"number\" id=\"value\" name=\"value\">" +
                 "</div>" +
                 "<div class=\"form_group\">" +
@@ -37,10 +37,6 @@ public class lengthPage extends pageCreator {
     @Override
     String createResetButton() {
         return "<a href=\"/length\" class=\"reset-btn\">Reset</a>";
-    }
-
-    String createUnitLabelContent() {
-        return "<label for=\"value\">Enter the length to convert</label>";
     }
 
     String createSelectionContent() {

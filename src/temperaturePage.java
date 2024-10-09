@@ -13,7 +13,7 @@ public class temperaturePage extends pageCreator{
     String createForm() {
         return "<form method=\"POST\" action=\"\" target=\"_self\">" +
                 "<div class=\"form_group\">" +
-                createUnitLabelContent() +
+                "<label for=\"value\">Enter the temperature to convert</label>" +
                 "<input type=\"number\" id=\"value\" name=\"value\">" +
                 "</div>" +
                 "<div class=\"form_group\">" +
@@ -43,9 +43,5 @@ public class temperaturePage extends pageCreator{
         return "<option value=\"C\">Celsius</option>" +
                 "<option value=\"F\">Fahrenheit</option>" +
                 "<option value=\"K\">Kelvin</option>";
-    }
-
-    String createUnitLabelContent() {
-        return "<label for=\"value\">Enter the temperature to convert</label>";
     }
 }
