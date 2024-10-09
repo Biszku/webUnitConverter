@@ -15,38 +15,14 @@ public class Server {
     public void start() {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(Server.PORT), 0);
-            server.createContext("/length", new lengthConversionHandler());
-            server.createContext("/weight",  new weightConversionHandler());
-            server.createContext("/temperature", new temperatureConversionHandler());
+            server.createContext("/length", (exchange -> new LengthConversionHandler().handle(exchange)));
+            server.createContext("/weight",  (exchange -> new WeightConversionHandler().handle(exchange)));
+            server.createContext("/temperature", (exchange -> new TemperatureConversionHandler().handle(exchange)));
             server.setExecutor(null);
             server.start();
             System.out.println("Server listening on port 8080");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-}
-
-class lengthConversionHandler extends LengthConHan implements HttpHandler {
-
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        handleAbstraction(exchange);
-    }
-}
-
-class weightConversionHandler extends WeightConHan implements HttpHandler {
-
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        handleAbstraction(exchange);
-    }
-}
-
-class temperatureConversionHandler extends TemperatureConHan implements HttpHandler {
-
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        handleAbstraction(exchange);
     }
 }

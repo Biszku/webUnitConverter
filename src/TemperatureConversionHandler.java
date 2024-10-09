@@ -1,4 +1,4 @@
-public class TemperatureConHan extends ConversionHandler {
+public class TemperatureConversionHandler extends ConversionHandler {
 
     @Override
     PageCreator getPage() {

@@ -1,4 +1,4 @@
-public class WeightConHan extends ConversionHandler {
+public class WeightConversionHandler extends ConversionHandler {
 
     @Override
     PageCreator getPage() {

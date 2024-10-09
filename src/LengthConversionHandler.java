@@ -1,4 +1,4 @@
-public class LengthConHan extends ConversionHandler {
+public class LengthConversionHandler extends ConversionHandler {
 
     @Override
     PageCreator getPage() {

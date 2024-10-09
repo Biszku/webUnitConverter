@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public abstract class ConversionHandler {
 
-    public void handleAbstraction(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) throws IOException {
         String response = "";
         PageCreator page = getPage();
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
