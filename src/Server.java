@@ -3,18 +3,11 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.InetSocketAddress;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 public class Server {
     private static final int PORT = 8080;
-
 
     public static void main(String[] args) {
         new Server().start();
@@ -35,8 +28,7 @@ public class Server {
     }
 }
 
-class lengthConversionHandler implements HttpHandler {
-
+class lengthConversionHandler extends conversionHandler implements HttpHandler {
     private String response = "";
 
     @Override
@@ -44,9 +36,9 @@ class lengthConversionHandler implements HttpHandler {
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
 
             String formData = new String(exchange.getRequestBody().readAllBytes());
-            List<String> params = getValuesFromForm(formData);
+            Map<String, String> params = getValuesFromForm(formData);
 
-            if(params == null){
+            if(params == null) {
                 response = new lengthPage().createPage();
                 exchange.sendResponseHeaders(200, response.length());
                 exchange.getResponseBody().write(response.getBytes());
@@ -54,16 +46,15 @@ class lengthConversionHandler implements HttpHandler {
                 return;
             }
 
-            int value = Integer.parseInt(params.get(0));
-            String from = params.get(1);
-            String to = params.get(2);
+            double value = Double.parseDouble(params.get("value"));
+            String from = params.get("from");
+            String to = params.get("to");
 
             double convertedValue = Length.convertUnit(from, to);
-            System.out.println(convertedValue);
             double result = value * convertedValue;
-            BigDecimal roundedValue = new BigDecimal(result).setScale(6, RoundingMode.HALF_UP);
 
-            response = new lengthPage().createResultPage(value+from, roundedValue+to);
+            response = new lengthPage().createResultPage("%.2f %s".formatted(value, from),
+                    "%.2f %s".formatted(result,to));
         } else if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
             response = new lengthPage().createPage();
         }
@@ -72,34 +63,37 @@ class lengthConversionHandler implements HttpHandler {
         exchange.getResponseBody().write(response.getBytes());
         exchange.close();
     }
-    private List<String> getValuesFromForm(String formData) {
-        String regex = "value=(\\d+)&from=(\\w+)&to=(\\w+)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(formData);
 
-        if (matcher.find()) {
-            List<String> params = new ArrayList<>();
-
-            params.add(matcher.group(1));
-            params.add(matcher.group(2));
-            params.add(matcher.group(3));
-
-            return params;
-        }
-        return null;
-    }
 }
 
-class weightConversionHandler implements HttpHandler {
+class weightConversionHandler extends conversionHandler implements HttpHandler {
 
     private String response = "";
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+
             String formData = new String(exchange.getRequestBody().readAllBytes());
-            List<String> params = getValuesFromForm(formData);
-            response = new weightPage().createResultPage("mm", "mm");
+            Map<String, String> params = getValuesFromForm(formData);
+
+            if(params == null) {
+                response = new weightPage().createPage();
+                exchange.sendResponseHeaders(200, response.length());
+                exchange.getResponseBody().write(response.getBytes());
+                exchange.close();
+                return;
+            }
+
+            double value = Double.parseDouble(params.get("value"));
+            String from = params.get("from");
+            String to = params.get("to");
+
+            double convertedValue = Weight.convertUnit(from, to);
+            double result = value * convertedValue;
+
+            response = new weightPage().createResultPage("%.2f %s".formatted(value, from),
+                    "%.2f %s".formatted(result,to));
         } else if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
             response = new weightPage().createPage();
         }
@@ -108,35 +102,39 @@ class weightConversionHandler implements HttpHandler {
         exchange.getResponseBody().write(response.getBytes());
         exchange.close();
     }
-
-    private List<String> getValuesFromForm(String formData) {
-        String regex = "value=([^&]*)&from=([^&]*)&to=([^&]*)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(formData);
-
-        if (matcher.find()) {
-            List<String> params = new ArrayList<>();
-
-            params.add(matcher.group(1));
-            params.add(matcher.group(2));
-            params.add(matcher.group(3));
-
-            return params;
-        }
-        return null;
-    }
 }
 
-class temperatureConversionHandler implements HttpHandler {
-
+class temperatureConversionHandler extends conversionHandler implements HttpHandler {
     private String response = "";
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+
             String formData = new String(exchange.getRequestBody().readAllBytes());
-            List<String> params = getValuesFromForm(formData);
-            response = new temperaturePage().createResultPage("C", "F");
+            Map<String, String> params = getValuesFromForm(formData);
+
+
+            if(params == null) {
+                response = new temperaturePage().createPage();
+                exchange.sendResponseHeaders(200, response.length());
+                exchange.getResponseBody().write(response.getBytes());
+                exchange.close();
+                return;
+            }
+
+            double value = Double.parseDouble(params.get("value"));
+
+            String from = params.get("from");
+            String to = params.get("to");
+
+            String fromPrefix = !from.equals("K") ? "&#176" : "";
+            String toPrefix = !to.equals("K") ? "&#176" : "";
+
+            double result = Temperature.convert(value, from, to);
+
+            response = new temperaturePage().createResultPage("%.2f %s".formatted(value, fromPrefix+from),
+                    "%.2f %s".formatted(result, toPrefix+to));
         } else if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
             response = new temperaturePage().createPage();
         }
@@ -144,23 +142,6 @@ class temperatureConversionHandler implements HttpHandler {
         exchange.sendResponseHeaders(200, response.length());
         exchange.getResponseBody().write(response.getBytes());
         exchange.close();
-    }
-
-    private List<String> getValuesFromForm(String formData) {
-        String regex = "value=([^&]*)&from=([^&]*)&to=([^&]*)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(formData);
-
-        if (matcher.find()) {
-            List<String> params = new ArrayList<>();
-
-            params.add(matcher.group(1));
-            params.add(matcher.group(2));
-            params.add(matcher.group(3));
-
-            return params;
-        }
-        return null;
     }
 }
 
